@@ -25,3 +25,24 @@ https://console.cloud.google.com/apis/library/iamcredentials.googleapis.com
 
 
 Creating a VM instance
+
+From your project's dashboard, go to Cloud Compute > VM instance
+Create a new instance:
+Any name of your choosing
+Pick your favourite region. You can check out the regions in this link.
+IMPORTANT: make sure that you use the same region for all of your Google Cloud components.
+
+Pick a E2 series instance. A e2-standard-4 instance is recommended (4 vCPUs, 16GB RAM)
+Change the boot disk to Ubuntu. The Ubuntu 20.04 LTS version is recommended. Also pick at least 30GB of storage.
+Leave all other settings on their default value and click on Create.
+
+Setting up SSH access to the VM
+
+To SSH to your VM, generate SSH key on your local computer. Mine is Ubuntu therefore I used
+ssh-keygen -t rsa -f ~/.ssh/de-zoomkey -C shivam -b 2048
+Your ~/.ssh folder will now have two files namely de-zoomkey and de-zoomkey.pub for private and public part respectively. Add the public key to your project metadata in 
+https://console.cloud.google.com/compute/metadata 
+Following this ssh to your instance with below command.
+ssh -i ~/.ssh/de-zoomkey shivam@34.131.174.70
+
+
