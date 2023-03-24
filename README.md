@@ -46,3 +46,33 @@ Following this ssh to your instance with below command.
 ssh -i ~/.ssh/de-zoomkey shivam@34.131.174.70
 
 
+Explain about using VS code
+
+Now, do one thing. 
+Setup GCP on machine
+
+Upload the credentials.json file to instance and update bashrc as follows.
+open bashrc like nano ~/.bashrc and add the line 
+export GOOGLE_APPLICATION_CREDENTIALS="<path/to/authkeys>.json"
+
+Exit nano with Ctrl+X. Follow the on-screen instructions to save the file and exit.
+Log out of your current terminal session and log back in, or run source ~/.bashrc to activate the environment variable.
+
+Install Gcloud  SDk copy from zitrion.
+Install Gcloud from link https://cloud.google.com/sdk/docs/install for your version. 
+
+Installing Docker 
+sudo apt install docker.io
+Installing Terraform
+USe the link to install terraform for your setup. 
+https://developer.hashicorp.com/terraform/downloads
+
+Use the following commands to install terraform 
+
+wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+
+sudo apt update && sudo apt install terraform
+
+
