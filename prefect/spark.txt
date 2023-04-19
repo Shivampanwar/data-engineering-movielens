@@ -1,0 +1,29 @@
+ 
+ Run the following command to set your project id:
+
+
+gcloud config set project <project_id>
+Set the region of your project by choosing one from the list here. An example might be us-central1.
+
+
+gcloud config set dataproc/region <region>
+Pick a name for your Dataproc cluster and create an environment variable for it.
+
+
+CLUSTER_NAME=<cluster_name>
+Creating a Dataproc Cluster
+Create a Dataproc cluster by executing the following command:
+
+
+ gcloud beta dataproc clusters create ${CLUSTER_NAME} \
+     --worker-machine-type n1-standard-2 \
+     --num-workers 2 \
+     --image-version 1.5-debian \
+     --initialization-actions gs://dataproc-initialization-actions/python/pip-install.sh \
+     --metadata 'PIP_PACKAGES=google-cloud-storage' \
+     --optional-components=ANACONDA \
+     --enable-component-gateway
+ 
+
+
+ gcloud dataproc jobs submit pyspark --cluster cluster-project --jars gs://spark-lib/bigquery/spark-bigquery-latest_2.12.jar --driver-log-levels root=FATAL getting_data_from_redshift.py

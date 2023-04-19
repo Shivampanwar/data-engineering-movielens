@@ -40,7 +40,7 @@ Setting up SSH access to the VM
 
 To SSH to your VM, generate SSH key on your local computer. Mine is Ubuntu therefore I used
 ssh-keygen -t rsa -f ~/.ssh/de-zoomkey -C shivam -b 2048
-Your ~/.ssh folder will now have two files namely de-zoomkey and de-zoomkey.pub for private and public part respectively. Add the public key to your project metadata in 
+Your ~/.ssh folder will now have two files namely de-zoomkey and de-zoomkey.pub for private and public part respectively. Add thebucket-deproject public key to your project metadata in 
 https://console.cloud.google.com/compute/metadata 
 Following this ssh to your instance with below command.
 ssh -i ~/.ssh/de-zoomkey shivam@34.131.174.70
@@ -75,4 +75,52 @@ echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://
 
 sudo apt update && sudo apt install terraform
 
+Now, terraform is installed. 
+Go to Terraform folder, execute below steps to make the obejcts.
+Initialize Terraform:
+
+**terraform init**
+
+Plan the infrastructure and make sure that you're creating a bucket in Cloud Storage as well as a dataset in BigQuery
+
+**terraform plan**
+If the plan details are as expected, apply the changes.
+
+**terraform apply**
+Now, you should have a bucket named bucket-deproject and bigquery dataset namely dataset_movie.
+
+Setting up ingestion flow with **prefect**
+
+
+Ingestion flow is like this. We fetch data from url. Download it locally, transform it like datetime stamp. We then upload from local to GCS and then from GCS to bigquery. 
+
+
+
+
+ALl code is inside the file. 
+
+We created an external table in bigquery. Now, we will need to patition it. Therefore, we used the command 
+'''
+CREATE OR REPLACE TABLE projectmovies-381510.dataset_movie.movies_data_par
+PARTITION BY
+  DATE(datetime_column) AS
+
+SELECT *,
+  PARSE_DATETIME('%Y-%m-%d %H:%M:%S', timestamp) AS datetime_column
+FROM
+  projectmovies-381510.dataset_movie.movies_data;
+
+'''
+
+This creates a new column namely datetime_columns and we partition according to that. 
+
+
+Running everytong via docker
+1. Go to main project folder and run
+docker build -t  project_image .
+2. Run container 
+docker run -p 4200:4200 project_image
+
+
+Enable data proc api
 
