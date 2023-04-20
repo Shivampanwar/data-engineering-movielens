@@ -2,15 +2,57 @@
 
 
 We embarked on an exciting project to build a robust data pipeline that would consume data from a trusted source - https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?datasetId=3405.
-Write objective here after dashboarding.
 
-To kick off the process, we fetched the data from the provided URL and downloaded it onto an EC2 instance. From there, we uploaded the data to GCS, where we leveraged external tables to create new tables in BigQuery.
+In this dataset we have movie rating given by the users with the dates. I wanted to find out the distribution of average ratings given by user and then in the second step I wanted to find the distribution of average ratings for each month in each year that is wanted to explore the relation between month, year and ratings. Below is the link for report, it might stop working if my GCP free trial expires then for that reference I have attached the screenshot and video for the same.
+
+/https://lookerstudio.google.com/reporting/238f176c-a729-47ce-94aa-830857ae5ec7/page/0aVND
+
+![report](https://user-images.githubusercontent.com/12275601/233337568-6b837015-e57b-4f03-a742-9d9ca3d683be.png)
+First graph represents the distribution of average ratings accoding to number of users and second graph represent the rating distribution with each month for each year. We can clearly see that average rating are roughly same for each month in each year.
+
+Let's get into technical aspects of this project. 
+
+To kick off the process, we fetched the data from the provided URL and downloaded it onto an GCP virtual machine. From there, we uploaded the data to GCS, where we leveraged external tables to create new tables in BigQuery.
 
 Thanks to the power of Prefect, we seamlessly orchestrated the entire process, while Terraform played a pivotal role in setting up the necessary infrastructure. Once we had the data securely stored, we applied transformation on the BigQuery table using DataProc in GCP. The outcome of this process was a brand new set of tables, which we used for dashboarding purposes.
 
 In a nutshell, we were able to build a top-notch data pipeline that streamlined the entire data collection, transformation, and visualization process.
-Setting up virtual machine and orher infra.
-       
+Setting up virtual machine and other infra.
+
+                                       +---------------+          +---------------+
+                       |               |          |               |
+                       |    Data       |          |    GCP        |
+                       |   Provider    |          |               |
+                       |               |          |    (GCS,      |
+                       +-------+-------+          |    BigQuery,  |
+                               |                  |    DataProc) |
+                               |                  |               |
+                               |                  +-------+-------+
+                               |                          |
+                               |                          |
+             +--------+  +-----+-----+             +--------+--------+
+             |        |  |           |             |                 |
+             |Virtual +--+    GCS    +-------------+   BigQuery      |
+             | Machine|  |           |             |                 |
+             +--------+  +-----+-----+             +-----------------+
+                               |                          |
+                               |                          |
+                               |                          |
+                               |                          |
+                        +------+-------+           +------+-------+
+                        |              |           |              |
+                        |   Prefect    |           |   DataProc   |
+                        |              |           |              |
+                        +--------------+           +--------------+
+                                |                        |
+                                |                        |
+                        +---------------+               |
+                        |               |               |
+                        |    Terraform  +---------------+
+                        |               |
+                        +---------------+
+
+
      
 Following were the requirements for the project. 
 
@@ -22,29 +64,30 @@ Following were the requirements for the project.
 2. Cloud
   0 points: Cloud is not used, things run only locally
   2 points: The project is developed in the cloud
-  4 points: The project is developed in the cloud and IaC tools are used
+  4 points: The project is developed in the cloud and IaC tools are used(done)
 3. Data ingestion (choose either batch or stream)
   Batch / Workflow orchestration
   0 points: No workflow orchestration
   2 points: Partial workflow orchestration: some steps are orchestrated, some run manually
-  4 points: End-to-end pipeline: multiple steps in the DAG, uploading data to data lake
+  4 points: End-to-end pipeline: multiple steps in the DAG, uploading data to data lake(done)
 4. Data warehouse
   0 points: No DWH is used
   2 points: Tables are created in DWH, but not optimized
-  4 points: Tables are partitioned and clustered in a way that makes sense for the upstream queries (with explanation)
+  4 points: Tables are partitioned and clustered in a way that makes sense for the upstream queries (with explanation)(done)
 5. Transformations (dbt, spark, etc)
   0 points: No tranformations
   2 points: Simple SQL transformation (no dbt or similar tools)
-  4 points: Tranformations are defined with dbt, Spark or similar technologies
+  4 points: Tranformations are defined with dbt, Spark or similar technologies(done)
 6. Dashboard
   0 points: No dashboard
   2 points: A dashboard with 1 tile
-  4 points: A dashboard with 2 tiles
+  4 points: A dashboard with 2 tiles(done)
 7. Reproducibility
   0 points: No instructions how to run code at all
   2 points: Some instructions are there, but they are not complete
   4 points: Instructions are clear, it's easy to run the code, and the code works
 
+There were certain requirements for this project. I tried to fulfill all of them, even if something is missing please let me know. 
 
 
 **Prerequisites**
