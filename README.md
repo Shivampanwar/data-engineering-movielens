@@ -105,24 +105,24 @@ Explain about using VS code
 
     Install Gcloud from  [this link](/https://cloud.google.com/sdk/docs/install) for your version . 
     Download Gcloud SDK from this link and install it according to the instructions for your OS.
-    Initialize the SDK following these instructions.
     Run gcloud init from a terminal and follow the instructions.
     Make sure that your project is selected with the command gcloud config list
 
-
-Installing Docker 
-sudo apt install docker.io
-Installing Terraform
-USe the link to install terraform for your setup. 
-https://developer.hashicorp.com/terraform/downloads
-
-Use the following commands to install terraform 
-
-wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
-
-echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-
-sudo apt update && sudo apt install terraform
+**5. Installing docker  and terraform on the VM**
+              
+            1. Run sudo apt install docker.io to install it.
+            2 .Change your settings so that you can run Docker without sudo:
+              2.a. Run sudo groupadd docker
+              2.b. Run sudo gpasswd -a $USER docker
+              2.c. Log out of your SSH session and log back in.
+              2.d. Run sudo service docker restart
+              2.e. Test that Docker can run successfully with docker run hello-world
+              
+             3. Installing **Terraform**
+                     Use [this link](/https://developer.hashicorp.com/terraform/downloads) to install terraform for your setup. I have anyways written                        the commands below.
+              3.1. wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+              3.2. echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+              3.3.sudo apt update && sudo apt install terraform
 
 Now, terraform is installed. 
 Go to Terraform folder, execute below steps to make the obejcts.
